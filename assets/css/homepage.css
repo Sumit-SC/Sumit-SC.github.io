@@ -2636,7 +2636,7 @@ input, select, textarea {
 			display: block;
 			margin: 4rem 0;
 			width: 100%;
-			max-height: 300px; /* Set your desired maximum height */
+			max-height: 250px; /* Set your desired maximum height */
 			height: auto;     /* Allow the height to adjust proportionally */		
 		}
 
