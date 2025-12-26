@@ -1,58 +1,42 @@
+(Updating README: appending Giscus/FormSubmit setup instructions)
+
 Minimal Portfolio Site for Sumit
 
 This repository branch `portfolio-site` contains a lightweight portfolio site meant for use on GitHub Pages. It is built with plain HTML, CSS, and minimal vanilla JavaScript — no frameworks, no build step.
 
-Structure
-- index.html             -> Home page with intro + featured projects
-- projects.html          -> Projects listing (dynamic)
-- project.html           -> Single project detail loaded by ?id=project-id
-- assets/
-  - css/style.css
-  - js/main.js
-  - images/ (svg placeholders)
-  - videos/ (placeholder)
-- data/projects.json     -> All project metadata (single source of truth)
-- slides/, pbix/         -> placeholders for slide decks and PBIX files
+... (existing content remains) ...
 
-How it works
-- All project content is read from data/projects.json. Both projects.html and project.html fetch this file and render UI.
-- Embeds supported: images, YouTube/mp4 videos, Streamlit (iframe with ?embed=true), Power BI iframe, PBIX download link, Slide PDF iframe.
+Giscus (GitHub Discussions) integration
+- The project detail pages embed Giscus to provide a native, professional comment experience backed by GitHub Discussions.
+- I pre-filled the numeric repository id in the embed (REPO_ID = 742705089). You still need to create a Discussion category and get its numeric id to enable posting.
 
-Add a new project
-1. Edit data/projects.json and add a new object with these fields:
-   - id (unique slug eg: "customer-retention")
-   - title
-   - short_description
-   - full_description
-   - problem_statement
-   - approach
-   - outcomes
-   - tools (array)
-   - images (array of paths under /assets/images)
-   - video_url (YouTube link or mp4 path)
-   - streamlit_url (ex: https://share.streamlit.io/your-app)
-   - powerbi_embed_url (iframe embed URL)
-   - pbix_download_path (eg: /pbix/your-file.pbix)
-   - slide_pdf_path (eg: /slides/your-slides.pdf)
-   - github_repo_link
-2. Commit your changes. The site will pick up changes on deploy.
+Steps to enable Giscus fully:
+1. In your repository Settings → Features, enable Discussions (if not already enabled).
+2. Open the Discussions tab and create a category named e.g. "Project Comments" (or any name).
+3. To get the category numeric id:
+   - Option A (recommended): use the GraphQL API or a browser extension. Example GraphQL query (requires a GitHub token):
+     {
+       repository(owner:"Sumit-SC", name:"Sumit-SC.github.io") { discussionCategory(id: "CATEGORY_NODE_ID") { id }
+       }
+     }
+   - Option B: Create one Discussion manually, then use the network inspector to find the category id when creating a discussion (the UI includes numeric ids in some endpoints).
+4. Replace the placeholder CATEGORY_ID_PLACEHOLDER in assets/js/main.js (variable GISCUS_CATEGORY_ID_PLACEHOLDER) with the numeric category id (a long number).
+5. Giscus will map each project by the project.id value so each project gets its own Discussion thread.
 
-Embed Streamlit
-- Provide the full streamlit app URL in streamlit_url. The site will append ?embed=true when creating the iframe, per Streamlit embedding guidance.
+Anonymous feedback via FormSubmit
+- The project pages also include an anonymous form UI (local-only by default). To receive submissions by email, configure FormSubmit:
+  - Go to https://formsubmit.co/ and follow their instructions to get an endpoint like https://formsubmit.co/your-email
+  - Replace the placeholder email URLs in contact.html and project anonymous UI (when you update) with your FormSubmit endpoint.
 
-Add PBIX files
-- Upload PBIX files to the /pbix directory (or another path in the repo) and set pbix_download_path to the file path. If a Power BI embed URL is present, the iframe will be used instead.
+Note on anonymous comments
+- For privacy and simplicity, anonymous posts are stored in the visitor's browser localStorage so the submitter sees their posts again. Other visitors will not see those posts unless you implement a backend to aggregate them (options: Staticman, a GitHub Action that appends to data/comments.json, or a small server endpoint).
 
-Publish via GitHub Pages
-1. Ensure branch `portfolio-site` is pushed to GitHub (this branch currently contains the site files).
-2. In the repository Settings > Pages, choose Branch: `portfolio-site` and folder: `/ (root)` and Save.
-3. After a minute the site will be available at https://<your-username>.github.io/<repo>/ or for a user/organization page (username.github.io) the repo root will be the site.
+Contact page
+- Includes a cBox placeholder for live chat and a FormSubmit-based anonymous feedback form. Replace the cBox embed in contact.html if you want a live chat.
 
-Notes
-- This site is intentionally minimal and professional for interview/demo purposes.
-- To preview locally, use a simple static server to avoid fetch errors when opening files directly, e.g.:
-  - Python 3: python -m http.server 8000
-  - npm: npx http-server .
+Publishing
+- Push and set GitHub Pages to use the portfolio-site branch (Settings → Pages → branch: portfolio-site / root). Do NOT merge to main unless you want to replace the live site.
 
-If you prefer the site to work purely by double-clicking index.html without a local server, I can add an embedded JSON fallback (duplicate of data/projects.json) inside each HTML file. Currently the site expects to be served over HTTP or GitHub Pages.
+If you'd like, I can now replace CATEGORY_ID_PLACEHOLDER with the actual category id if you create the category and provide the id, or I can leave it for you to paste later.
 
+--- End of update
