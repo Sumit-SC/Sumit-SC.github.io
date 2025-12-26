@@ -1,0 +1,53 @@
+[
+  {
+    "id": "used-car-predictions",
+    "title": "Used Car Price Predictions",
+    "short_description": "Regression model and dashboard to estimate fair market price for used cars.",
+    "full_description": "Built a robust modeling pipeline to predict used car prices using feature engineering, gradient boosting models, and model explainability to support pricing decisions.",
+    "problem_statement": "Derive an automated estimate for fair market value to improve listing conversion and reduce price disputes.",
+    "approach": "Data cleaning, EDA, feature engineering (age, mileage adjustment), model training with XGBoost, cross-validation, SHAP analysis, and a production-ready scoring notebook.",
+    "outcomes": "Achieved 18% reduction in price variance vs baseline heuristic and a 12% increase in listing conversion in A/B test.",
+    "tools": ["Python","Pandas","XGBoost","SHAP","Tableau"],
+    "images": ["/assets/images/project1.svg","/assets/images/project2.svg"],
+    "video_url": "",
+    "streamlit_url": "",
+    "powerbi_embed_url": "",
+    "pbix_download_path": "/pbix/used_car_sample.pbix",
+    "slide_pdf_path": "/slides/used_car_slides.pdf",
+    "github_repo_link": "https://github.com/Sumit-SC/used-car-predictions"
+  },
+  {
+    "id": "churn-analysis",
+    "title": "Customer Churn Analysis & Experimentation",
+    "short_description": "Cohort analysis and causal inference to inform retention experiments.",
+    "full_description": "Performed survival analysis, uplift modeling, and designed randomized experiments to reduce churn. Delivered prioritized experiment plan with expected value estimates.",
+    "problem_statement": "Identify drivers of churn and test interventions to reduce monthly churn rate.",
+    "approach": "EDA, survival curves, propensity score matching, uplift modeling, and A/B test design with power analysis.",
+    "outcomes": "Recommended top 3 interventions with estimated 4% absolute reduction in monthly churn if rolled out.",
+    "tools": ["SQL","Python","R","CausalML","Looker"],
+    "images": ["/assets/images/project3.svg"],
+    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "streamlit_url": "",
+    "powerbi_embed_url": "",
+    "pbix_download_path": "",
+    "slide_pdf_path": "",
+    "github_repo_link": "https://github.com/Sumit-SC/churn-analysis"
+  },
+  {
+    "id": "pricing-experiment",
+    "title": "Pricing Experimentation Framework",
+    "short_description": "Framework to run rapid pricing experiments and measure elasticity across segments.",
+    "full_description": "Designed a repeatable experimental framework, instrumentation, and analysis templates to measure price elasticity and inform pricing strategy.",
+    "problem_statement": "Enable reliable measurement of price sensitivity to optimize revenue.",
+    "approach": "Segment definition, randomized pricing variants, regression adjustment, and hierarchical modeling to pool information across segments.",
+    "outcomes": "Framework reduced time-to-insight from 6 weeks to 2 weeks; identified high-value segments for targeted pricing.",
+    "tools": ["Python","Statsmodels","SQL","Power BI"],
+    "images": [],
+    "video_url": "",
+    "streamlit_url": "https://share.streamlit.io/",
+    "powerbi_embed_url": "",
+    "pbix_download_path": "",
+    "slide_pdf_path": "",
+    "github_repo_link": ""
+  }
+]
