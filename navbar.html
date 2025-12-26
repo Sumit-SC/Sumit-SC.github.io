@@ -1,23 +1,17 @@
-<nav id="nav">
-    <!-- Page Links -->
-    <ul class="links">
-        <li class="active"><a href="homepage copy.html">Home</a></li>
-        <li><a href="about.html">Profile</a></li>
-        <li><a href="#" id="project-tab">Project View</a></li>
-    </ul>
-    <!-- Project View Container -->
-    <div id="project-view" style="display: none;">
-        <!-- Placeholder for the project name -->
-        <span id="project-name-placeholder"></span>
+<!-- Modernized navbar include (used by some pages) -->
+<nav class="w-full">
+  <div class="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-md bg-gradient-to-br from-indigo-600 to-teal-400 flex items-center justify-center text-white font-semibold">SS</div>
+        <span class="text-sm font-semibold">Sumit S. Chaure</span>
+      </a>
     </div>
-
-    <!-- Icons -->
-    <ul class="icons">
-        <li><a href="https://www.linkedin.com/in/sumitsc/" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
-            <li><a href="https://github.com/Sumit-SC" class="icon brands fa-github"><span class="label">Github</span></a></li>
-            <li><a href="https://www.kaggle.com/mitsu00" class="icon brands fa-kaggle"><span class="label">Kaggle</span></a></li>
-            <li><a href="https://medium.com/@sumitsc.work" class="icon brands fa-medium"><span class="label">Medium</span></a></li>
-            <li><a href="mailto:sumitsc.work@gmail.com" class="icon brands fa-google fa-bounce"><span class="label">Gmail</span></a></li>
-            <li><a href="mailto:mitsu02@duck.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-    </ul>
+    <div class="hidden md:flex items-center gap-4">
+      <a href="homepage.html#intro" class="text-sm hover:underline">Intro</a>
+      <a href="homepage.html#projects" class="text-sm hover:underline">Projects</a>
+      <a href="about.html" class="text-sm hover:underline">About</a>
+      <a href="contact.html" class="text-sm hover:underline">Contact</a>
+    </div>
+  </div>
 </nav>

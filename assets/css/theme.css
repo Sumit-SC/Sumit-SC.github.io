@@ -1,0 +1,27 @@
+:root{
+  --accent-500: #6366f1; /* indigo-500 */
+  --accent-600: #4f46e5;
+  --bg-surface: #ffffff;
+  --text-default: #0f172a;
+}
+
+html[data-theme='indigo']{ --accent-500:#6366f1; --accent-600:#4f46e5; }
+html[data-theme='teal']{ --accent-500:#14b8a6; --accent-600:#0d9488; }
+html[data-theme='rose']{ --accent-500:#fb7185; --accent-600:#f43f5e; }
+html[data-theme='amber']{ --accent-500:#f59e0b; --accent-600:#d97706; }
+
+/* map variables to some Tailwind custom properties fallback (used by some pages) */
+.bg-surface{ background-color: var(--bg-surface); }
+.text-accent{ color:var(--accent-600); }
+
+/* Dark mode tweaks */
+html.dark{
+  --bg-surface: #0b1220;
+  --text-default: #e6eef8;
+}
+
+/* Minimal focus-visible styles */
+:focus{ outline: 2px solid rgba(99,102,241,0.2); outline-offset: 2px; }
+
+/* Small helpers for older templates */
+.container{ max-width: 1100px; margin: 0 auto; padding: 0 1rem; }

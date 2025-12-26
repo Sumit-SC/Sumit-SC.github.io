@@ -1,183 +1,169 @@
-<!DOCTYPE HTML>
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Data Science Portfolio</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/homepage.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		 <link rel="shortcut icon" type="image/x-icon" href="favicon-32x32.png">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sumit S. Chaure — Data & Product Analyst Portfolio</title>
+  <meta name="description" content="Portfolio of Sumit S. Chaure — Data Analyst / Product Analyst. Projects: Fraud Intelligence, Product Cohort Analytics, Churn & Retention." />
+  <!-- Tailwind CDN (no build step) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/theme.css" />
+  <script defer src="assets/js/theme.js"></script>
+</head>
+<body class="bg-surface text-slate-900 antialiased">
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/60 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800">
+    <div class="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-md bg-gradient-to-br from-indigo-600 to-teal-400 flex items-center justify-center text-white font-semibold">SS</div>
+        <div>
+          <div class="text-sm font-semibold">Sumit S. Chaure</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">Data & Product Analyst</div>
+        </div>
+      </a>
 
-	</head>
-	<body class="is-preload">
+      <nav class="hidden md:flex items-center gap-4">
+        <a href="homepage.html#intro" class="text-sm hover:underline">Intro</a>
+        <a href="homepage.html#projects" class="text-sm hover:underline">Projects</a>
+        <a href="about.html" class="text-sm hover:underline">About</a>
+        <a href="contact.html" class="text-sm hover:underline">Contact</a>
+        <button id="theme-toggle" aria-label="Toggle dark mode" class="ml-2 px-2 py-1 rounded text-sm bg-slate-100 dark:bg-slate-800">Toggle</button>
+        <select id="palette-select" aria-label="Theme palette" class="ml-2 text-sm bg-transparent">
+          <option value="indigo">Indigo</option>
+          <option value="teal">Teal</option>
+          <option value="rose">Rose</option>
+          <option value="amber">Amber</option>
+        </select>
+      </nav>
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+      <div class="md:hidden">
+        <button id="mobile-menu-btn" aria-label="Open menu" class="p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
-				<!-- Intro -->
-					<div id="intro">
-                        <h1>Sumit S. Chaure</h1>
-						<h2>Data Science Portfolio<br /></h2>
-						<p>Explore my diverse collection of projects showcasing machine learning, data analysis, and more. Organized by project, each directory contains code, datasets, documentation, and resources.</p>
-						<ul class="actions">
-							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Explore</a></li>
-						</ul>
-					</div>
+  <main class="mx-auto max-w-5xl px-4 py-12">
+    <!-- Hero -->
+    <section id="intro" class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">Hi — I'm Sumit. I build data products and analytics that drive decisions.</h1>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">Product- and data-focused analyst with experience in SQL, Python, Power BI, Tableau and experimentation. I design dashboards, build predictive models and create actionable insights for product & risk teams.</p>
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">Data Science Projects</a>
-					</header>
+        <div class="mt-6 flex gap-3">
+          <a href="#projects" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700">View projects</a>
+          <a href="contact.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-md border">Contact</a>
+          <a href="assets/resume.pdf" class="inline-flex items-center gap-2 px-4 py-2 rounded-md border" target="_blank">Resume</a>
+        </div>
 
-				<!-- Nav -->
-					<nav id="nav">
-                        <!-- Page Links -->
-						<ul class="links">
-							<li class="active"><a href="homepage.html">Home</a></li>
-							<!-- <li><a href="#profile.html">Profile</a></li> -->
-							<!-- <li><a href="#.html">Project View</a></li> -->
-							<li><a href="about.html">About Me</a></li>
-							<li><a href="socialhandles.html">Contact Me</a></li>
-						</ul>
-                        <!-- Icons -->
-						<ul class="icons">
-							<li><a href="https://www.linkedin.com/in/sumitsc/" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
-								<li><a href="https://github.com/Sumit-SC" class="icon brands fa-github"><span class="label">Github</span></a></li>
-								<li><a href="https://www.kaggle.com/mitsu00" class="icon brands fa-kaggle"><span class="label">Kaggle</span></a></li>
-								<li><a href="https://medium.com/@sumitsc.work" class="icon brands fa-medium"><span class="label">Medium</span></a></li>
-								<li><a href="mailto:sumitsc.work@gmail.com" class="icon brands fa-google fa-bounce"><span class="label">Gmail</span></a></li>
-								<li><a href="mailto:mitsu02@duck.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-						</ul>
-					</nav>
+        <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div class="text-center">
+            <div class="text-sm font-semibold">SQL</div>
+            <div class="text-xs text-slate-500">Advanced</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sm font-semibold">Python</div>
+            <div class="text-xs text-slate-500">Advanced</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sm font-semibold">Power BI</div>
+            <div class="text-xs text-slate-500">Intermediate</div>
+          </div>
+          <div class="text-center">
+            <div class="text-sm font-semibold">Tableau</div>
+            <div class="text-xs text-slate-500">Intermediate</div>
+          </div>
+        </div>
+      </div>
 
-				<!-- Main -->
-					<div id="main">
+      <div class="order-first md:order-last">
+        <div class="rounded-xl bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 p-4 shadow">
+          <img src="assets/images/hero-screenshot.png" alt="dashboard preview" class="rounded-md w-full object-cover" loading="lazy"/>
+        </div>
+      </div>
+    </section>
 
-						<!-- Featured Post -->
-                        <article class="post featured">
-                            <header class="major">
-                                <span class="date">January 02,2024</span>
-                                <h2><a href="#">Used Car Price Prediction<br />
-									using Machine Learning Models & Techniques.
-									<a href="https://nbviewer.org/github/Sumit-SC/Data-Science-Capstone-Project/tree/main/notebooks/" class="image main"><img src="projects/assets/images/used_car_price.png" alt=""></a></h2>
-                                <p>In this data science project, I have conducted a comprehensive Exploratory Data Analysis (EDA) on a dataset containing information about used cars. The dataset encompasses a variety of features such as the car's make, model, year of manufacture, mileage, fuel type, and various other factors that influence the pricing of used cars. The primary objective of this project is to gain valuable insights into the dataset through EDA and build a robust machine learning model to predict the price of used cars.</p>
-                            </header>
-                            <ul class="actions special">
-                                <li><a href="projects/used_car_predictions.html" class="button large">Full Story</a></li>
-                            </ul>
-                        </article>
+    <!-- Projects -->
+    <section id="projects" class="mt-16">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold">Highlighted Projects</h2>
+        <div class="text-sm text-slate-500">Pinned work for interviews</div>
+      </div>
 
-						<!-- Posts -->
-							<section class="posts">
-								<article>
-									<header>
-										<h2>Oil Spill<br />
-											Classification using ML</a></h2>
-									</header>
-									<a href="#oil_spill_classification.html" class="image fit"><img src="projects/assets/images/oil_spill.jpg" alt="" /></a>
-									<p>"Machine Learning-Based Ocean Patch Classification Dataset: Predicting Oil Spills in Satellite Images through Advanced Feature Analysis."</p>
-									<ul class="actions special">
-										<li><a href="https://nbviewer.org/github/Sumit-SC/Oil-Spill-Classification/blob/main/Oil_Spill_Classification.ipynb" class="button">View Project</a></li>
-									</ul>
-								</article>
-								
-								<article>
-									<header>
-										
-										<h2><a href="#">IMDB Movie Analysis<br />
-										EDA Using Python & Excel</a></h2>
-									</header>
-									<a href="#IMDB.html" class="image fit"><img src="projects/assets/images/Project 5 - IMDB Movie Analysis.png" alt="" /></a>
-									<p>"Unlocking Insights: Analyzing IMDB Movies Data with Excel and Python for Comprehensive Cinematic Exploration"
-									</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/Sumit-SC/Data-Analytics/tree/main/5.%20IMDB%20Movie%20Analysis" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										
-										<h2><a href="#">Bank Loan Case Study<br />
-										Detection</a></h2>
-									</header>
-									<a href="#bank_loan.html" class="image fit"><img src="projects/assets/images/Project 6 - Bank Loan Case Study.png" alt="" /></a>
-									<p>"Evaluating Creditworthiness: A Bank Loan Case Study utilizing Python and Excel Dashboards to Assess Consumer Eligibility and Predict Default Probability."</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/Sumit-SC/Data-Analytics/tree/main/6.%20Bank%20Loan%20Case%20Study" class="button">View Project</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										
-										<h2><a href="#">Impact Of Car Features<br />
-										EDA & Dashboarding</a></h2>
-									</header>
-									<a href="#impact_of_car_features.html" class="image fit"><img src="projects/assets/images/2023-Car-Features-List.jpg" alt="" /></a>
-									<p>"Unveiling Market Dynamics: Exploring the Influence of Car Features on Selling Prices through In-depth Analysis with Python, Excel, and Power BI. A Comprehensive EDA Study and Dashboard Presentation."
-									</p>
-									<ul class="actions special">
-										<li><a href="https://github.com/Sumit-SC/Data-Analytics/tree/main/7.%20Impact%20of%20Car%20Features" class="button">View Project</a></li>
-									</ul>
-								</article>
-							</section>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Card 1 -->
+        <article class="group rounded-xl border p-4 hover:shadow-lg transition">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="text-lg font-semibold">Fraud Intelligence & Risk Analytics</h3>
+              <p class="mt-1 text-sm text-slate-500">Detection models, feature engineering, dashboard for monitoring fraud risk.</p>
+              <div class="mt-3 flex gap-2 text-xs text-slate-600">
+                <span class="px-2 py-1 bg-slate-100 rounded">Python</span>
+                <span class="px-2 py-1 bg-slate-100 rounded">SQL</span>
+                <span class="px-2 py-1 bg-slate-100 rounded">Power BI</span>
+              </div>
+            </div>
+            <a href="projects/fraud.html" class="ml-4 text-indigo-600 group-hover:underline">Open →</a>
+          </div>
+        </article>
 
-						<!-- Footer -->
-							<footer>
-								<div class="pagination">
-									<!--<a href="#" class="previous">Prev</a>-->
-									<a href="homepage.html" class="page active">1</a>
-									<a href="page2.html" class="page">2</a>
-									<span class="extra">&hellip;</span>
-									<a href="#" class="page">XX</a>
-									<a href="page2.html" class="next">Next</a>
-								</div>
-							</footer>
+        <!-- Card 2 -->
+        <article class="group rounded-xl border p-4 hover:shadow-lg transition">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="text-lg font-semibold">Product / Cohort Analytics</h3>
+              <p class="mt-1 text-sm text-slate-500">Cohort analysis, A/B experiment summaries, product metrics dashboards.</p>
+              <div class="mt-3 flex gap-2 text-xs text-slate-600">
+                <span class="px-2 py-1 bg-slate-100 rounded">SQL</span>
+                <span class="px-2 py-1 bg-slate-100 rounded">Tableau</span>
+              </div>
+            </div>
+            <a href="projects/product-cohort.html" class="ml-4 text-indigo-600 group-hover:underline">Open →</a>
+          </div>
+        </article>
 
-					</div>
+        <!-- Card 3 -->
+        <article class="group rounded-xl border p-4 hover:shadow-lg transition">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="text-lg font-semibold">Churn & Retention Analytics</h3>
+              <p class="mt-1 text-sm text-slate-500">Retention cohorts, survival analysis and actionable levers to reduce churn.</p>
+              <div class="mt-3 flex gap-2 text-xs text-slate-600">
+                <span class="px-2 py-1 bg-slate-100 rounded">Python</span>
+                <span class="px-2 py-1 bg-slate-100 rounded">SQL</span>
+              </div>
+            </div>
+            <a href="projects/churn.html" class="ml-4 text-indigo-600 group-hover:underline">Open →</a>
+          </div>
+        </article>
+      </div>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section>
-							<h2>Get in Touch</h2>
-						<section class="split contact">
-							<section>
-								<h3>Email</h3>
-								<p><a href="mailto:sumitsc.work@gmail.com">sumitsc.work@gmail.com</a></p>
-							</section>
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="https://www.linkedin.com/in/sumitsc/" class="icon brands alt fa-linkedin"><span class="label">Linkedin</span></a></li>
-									<li><a href="https://github.com/Sumit-SC" class="icon brands fa-github"><span class="label">Github</span></a></li>
-									<li><a href="https://www.kaggle.com/mitsu00" class="icon brands fa-kaggle"><span class="label">Kaggle</span></a></li>
-								    <li><a href="https://medium.com/@sumitsc.work" class="icon brands fa-medium"><span class="label">Medium</span></a></li>
-								    <li><a href="mailto:sumitsc.work@gmail.com" class="icon brands fa-google fa-bounce"><span class="label">Gmail</span></a></li>
-								    <li><a href="mailto:mitsu02@duck.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer>
+      <div class="mt-8 text-center">
+        <a href="page2.html" class="text-sm underline">View all projects</a>
+      </div>
+    </section>
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; Sumit S. Chaure</li><li>Design Credits: <a href="https://html5up.net/massively">HTML5 UP</a></li></ul>
-					</div>
+    <!-- Footer -->
+    <footer class="mt-20 border-t pt-8 text-sm text-slate-500">
+      <div class="flex items-center justify-between">
+        <div>© 2025 Sumit S. Chaure</div>
+        <div class="flex gap-4">
+          <a href="socialhandles.html">Social</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </footer>
 
-			</div>
+  </main>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/homepage.js"></script>
-
-	</body>
+  <script>
+    // Mobile menu simple toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    if (mobileBtn) {
+      mobileBtn.addEventListener('click', () => {
+        alert('Mobile menu not implemented in initial pass. Use desktop or open pages directly.');
+      });
+    }
+  </script>
+</body>
 </html>
