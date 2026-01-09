@@ -32,12 +32,12 @@
 				Explore my diverse collection of projects showcasing machine learning, data analysis, and more. 
 				Organized by project, each directory contains code, datasets, documentation, and resources.
 			</p>
-			<div class="flex flex-col items-center gap-4">
+			<div class="flex flex-col items-center gap-4 intro-cta" style="opacity: 0;">
 				<!-- Arrow cue (HTML5 UP-style) -->
 				<a href="#main" class="section-arrow">
 					<span class="arrow-icon"></span>
 				</a>
-				<a href="#main" class="inline-block px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full text-white font-semibold transition-all duration-300 hover:scale-105 border-2 border-white/30 animate-slide-in-up">
+				<a href="#main" class="inline-block px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-full text-white font-semibold transition-all duration-300 hover:scale-105 border-2 border-white/30">
 					Explore
 				</a>
 			</div>
@@ -159,8 +159,8 @@
 			</div>
 			</article>
 
-			<!-- 2 Projects Side by Side (1 Project | 2nd Project) -->
-			<div id="pinned-grid" class="grid md:grid-cols-2 gap-8 mb-12"></div>
+			<!-- 3 Featured Projects Grid -->
+			<div id="pinned-grid" class="grid md:grid-cols-3 gap-8 mb-12"></div>
 		</section>
 
 		<!-- All Projects Section -->
@@ -280,6 +280,16 @@
 				});
 			});
 		}
+
+		// Delayed animation for intro CTA (arrow + button) - similar to index.html
+		window.addEventListener('load', function() {
+			setTimeout(function() {
+				const ctaContainer = document.querySelector('.intro-cta');
+				if (ctaContainer) {
+					ctaContainer.classList.add('visible');
+				}
+			}, 2500); // 2.5 second delay (similar to index.html's 3.5s but slightly faster)
+		});
 	</script>
 </body>
 </html>

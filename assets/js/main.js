@@ -429,7 +429,7 @@ async function loadPinnedProjects() {
   if (!container) return;
 
   const projects = await loadProjects();
-  const pinned = projects.filter(p => p.featured && p.id !== 'used-car-price').slice(0, 2); // Exclude main featured, get 2 more
+  const pinned = projects.filter(p => p.featured && p.id !== 'used-car-price').slice(0, 3); // Exclude main featured, get 3 more
 
   if (!pinned.length) {
     container.parentElement.style.display = 'none';
