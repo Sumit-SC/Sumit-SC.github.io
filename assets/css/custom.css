@@ -358,6 +358,36 @@ html {
 }
 
 /* Color theme variants (controlled via data-color-theme on <html>) */
+/* CSS Variables for dynamic color theming */
+:root {
+  --color-primary: #667eea;
+  --color-accent: #764ba2;
+  --color-primary-light: #818cf8;
+  --color-accent-light: #a78bfa;
+}
+
+[data-color-theme="theme-purple"] {
+  --color-primary: #667eea;
+  --color-accent: #764ba2;
+  --color-primary-light: #818cf8;
+  --color-accent-light: #a78bfa;
+}
+
+[data-color-theme="theme-blue"] {
+  --color-primary: #3b82f6;
+  --color-accent: #2563eb;
+  --color-primary-light: #60a5fa;
+  --color-accent-light: #3b82f6;
+}
+
+[data-color-theme="theme-emerald"] {
+  --color-primary: #10b981;
+  --color-accent: #059669;
+  --color-primary-light: #34d399;
+  --color-accent-light: #10b981;
+}
+
+/* Apply to buttons and progress bars */
 [data-color-theme="theme-purple"] .btn-primary,
 [data-color-theme="theme-purple"] .scroll-progress {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -365,12 +395,116 @@ html {
 
 [data-color-theme="theme-blue"] .btn-primary,
 [data-color-theme="theme-blue"] .scroll-progress {
-  background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
 [data-color-theme="theme-emerald"] .btn-primary,
 [data-color-theme="theme-emerald"] .scroll-progress {
-  background: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Override Tailwind primary color classes with high specificity */
+[data-color-theme="theme-purple"] .text-primary {
+  color: #667eea !important;
+}
+
+[data-color-theme="theme-purple"] a:hover.text-primary,
+[data-color-theme="theme-purple"] .hover\:text-primary:hover,
+[data-color-theme="theme-purple"] a.hover\:text-primary:hover {
+  color: #667eea !important;
+}
+
+[data-color-theme="theme-blue"] .text-primary {
+  color: #3b82f6 !important;
+}
+
+[data-color-theme="theme-blue"] a:hover.text-primary,
+[data-color-theme="theme-blue"] .hover\:text-primary:hover,
+[data-color-theme="theme-blue"] a.hover\:text-primary:hover {
+  color: #3b82f6 !important;
+}
+
+[data-color-theme="theme-emerald"] .text-primary {
+  color: #10b981 !important;
+}
+
+[data-color-theme="theme-emerald"] a:hover.text-primary,
+[data-color-theme="theme-emerald"] .hover\:text-primary:hover,
+[data-color-theme="theme-emerald"] a.hover\:text-primary:hover {
+  color: #10b981 !important;
+}
+
+/* Border primary colors */
+[data-color-theme="theme-purple"] .border-primary,
+[data-color-theme="theme-purple"] .focus\:border-primary:focus {
+  border-color: #667eea !important;
+}
+
+[data-color-theme="theme-blue"] .border-primary,
+[data-color-theme="theme-blue"] .focus\:border-primary:focus {
+  border-color: #3b82f6 !important;
+}
+
+[data-color-theme="theme-emerald"] .border-primary,
+[data-color-theme="theme-emerald"] .focus\:border-primary:focus {
+  border-color: #10b981 !important;
+}
+
+/* Ring primary colors (for focus states) */
+[data-color-theme="theme-purple"] .focus\:ring-primary:focus,
+[data-color-theme="theme-purple"] .ring-primary {
+  --tw-ring-color: #667eea !important;
+}
+
+[data-color-theme="theme-blue"] .focus\:ring-primary:focus,
+[data-color-theme="theme-blue"] .ring-primary {
+  --tw-ring-color: #3b82f6 !important;
+}
+
+[data-color-theme="theme-emerald"] .focus\:ring-primary:focus,
+[data-color-theme="theme-emerald"] .ring-primary {
+  --tw-ring-color: #10b981 !important;
+}
+
+/* Gradient backgrounds */
+[data-color-theme="theme-purple"] .from-primary {
+  --tw-gradient-from: #667eea !important;
+}
+
+[data-color-theme="theme-purple"] .via-accent {
+  --tw-gradient-to: #764ba2 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #764ba2, var(--tw-gradient-to) !important;
+}
+
+[data-color-theme="theme-blue"] .from-primary {
+  --tw-gradient-from: #3b82f6 !important;
+}
+
+[data-color-theme="theme-blue"] .via-accent {
+  --tw-gradient-to: #2563eb !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #2563eb, var(--tw-gradient-to) !important;
+}
+
+[data-color-theme="theme-emerald"] .from-primary {
+  --tw-gradient-from: #10b981 !important;
+}
+
+[data-color-theme="theme-emerald"] .via-accent {
+  --tw-gradient-to: #059669 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #059669, var(--tw-gradient-to) !important;
+}
+
+/* Background primary colors */
+[data-color-theme="theme-purple"] .bg-primary {
+  background-color: #667eea !important;
+}
+
+[data-color-theme="theme-blue"] .bg-primary {
+  background-color: #3b82f6 !important;
+}
+
+[data-color-theme="theme-emerald"] .bg-primary {
+  background-color: #10b981 !important;
 }
 
 /* Timeline line styles */

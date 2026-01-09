@@ -15,10 +15,16 @@
 })();
 
 function init() {
-  initTheme();             // Light/Dark theme
+  initTheme();             // Light/Dark theme (must be first for color theme)
   routePage();
   initScrollAnimations();
   initScrollProgress();
+  
+  // Force theme color application after DOM is ready
+  setTimeout(() => {
+    const currentTheme = localStorage.getItem('colorTheme') || 'theme-purple';
+    applyColorTheme(currentTheme);
+  }, 50);
 }
 
 /* ---------- THEME (LIGHT / DARK) ---------- */
@@ -28,7 +34,9 @@ function initTheme() {
   const initial = saved || (prefersDark ? 'dark' : 'light');
 
   applyTheme(initial);
-  applyColorTheme(); // apply saved or default accent theme
+  // Apply color theme immediately with saved value
+  const savedColorTheme = localStorage.getItem('colorTheme') || 'theme-purple';
+  applyColorTheme(savedColorTheme);
 
   // Expose globally
   window.currentTheme = initial;
@@ -92,6 +100,73 @@ function applyColorTheme(name) {
   const stored = localStorage.getItem('colorTheme');
   const theme = name || stored || 'theme-purple';
   root.dataset.colorTheme = theme;
+  
+  // Color mappings
+  const colorMap = {
+    'theme-purple': { primary: '#667eea', accent: '#764ba2' },
+    'theme-blue': { primary: '#3b82f6', accent: '#2563eb' },
+    'theme-emerald': { primary: '#10b981', accent: '#059669' }
+  };
+  
+  const colors = colorMap[theme] || colorMap['theme-purple'];
+  
+  // Inject dynamic style to override Tailwind classes
+  let styleEl = document.getElementById('dynamic-theme-colors');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'dynamic-theme-colors';
+    document.head.appendChild(styleEl);
+  }
+  
+  // Create CSS that overrides all primary color usages with higher specificity
+  // Apply to html element to ensure it cascades properly
+  styleEl.textContent = `
+    html[data-color-theme="${theme}"] .text-primary,
+    html[data-color-theme="${theme}"] a.text-primary,
+    html[data-color-theme="${theme}"] .hover\\:text-primary:hover,
+    html[data-color-theme="${theme}"] a:hover.text-primary,
+    html[data-color-theme="${theme}"] a.hover\\:text-primary:hover,
+    html[data-color-theme="${theme}"] *[class*="text-primary"] {
+      color: ${colors.primary} !important;
+    }
+    html[data-color-theme="${theme}"] .border-primary,
+    html[data-color-theme="${theme}"] .focus\\:border-primary:focus,
+    html[data-color-theme="${theme}"] *[class*="border-primary"] {
+      border-color: ${colors.primary} !important;
+    }
+    html[data-color-theme="${theme}"] .bg-primary,
+    html[data-color-theme="${theme}"] *[class*="bg-primary"] {
+      background-color: ${colors.primary} !important;
+    }
+    html[data-color-theme="${theme}"] .focus\\:ring-primary:focus,
+    html[data-color-theme="${theme}"] *[class*="ring-primary"] {
+      --tw-ring-color: ${colors.primary} !important;
+    }
+    html[data-color-theme="${theme}"] .from-primary,
+    html[data-color-theme="${theme}"] *[class*="from-primary"] {
+      --tw-gradient-from: ${colors.primary} !important;
+    }
+    html[data-color-theme="${theme}"] .via-accent,
+    html[data-color-theme="${theme}"] *[class*="via-accent"] {
+      --tw-gradient-to: ${colors.accent} !important;
+      --tw-gradient-stops: var(--tw-gradient-from), ${colors.accent}, var(--tw-gradient-to) !important;
+    }
+    html[data-color-theme="${theme}"] .btn-primary {
+      background: linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%) !important;
+    }
+    html[data-color-theme="${theme}"] .scroll-progress {
+      background: linear-gradient(to right, ${colors.primary}, ${colors.accent}) !important;
+    }
+  `;
+  
+  // Also update theme-color meta tag for browser UI
+  let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+  if (!themeColorMeta) {
+    themeColorMeta = document.createElement('meta');
+    themeColorMeta.name = 'theme-color';
+    document.head.appendChild(themeColorMeta);
+  }
+  themeColorMeta.content = colors.primary;
 }
 
 function updateColorSwatch(el, theme) {
@@ -209,13 +284,14 @@ function createPinnedProjectCard(project) {
   const tags = (project.tools || []).slice(0, 3).map(t => 
     `<span class="px-2 py-1 text-xs bg-primary/10 text-primary rounded">${t}</span>`
   ).join('');
+  const thumbnailUrl = resolveAssetUrl(project, project.thumbnail || '');
 
   return `
     <article class="bg-white rounded-lg shadow-lg overflow-hidden project-card animate-on-scroll group relative">
       <div class="md:flex">
         <div class="md:w-1/2 relative overflow-hidden">
           <a href="project.html?id=${project.id}" class="block">
-            <img src="${project.thumbnail || ''}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+            <img src="${thumbnailUrl}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null; this.src='assets/images/placeholder.png'; this.alt='${project.title} - Image not available';" loading="lazy">
           </a>
           <!-- Hover Popup Overlay -->
           <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -299,11 +375,12 @@ function createDashboardProjectCard(project) {
 
   const githubLink = project.github_url ? `<a href="${project.github_url}" target="_blank" class="flex items-center gap-2 text-sm text-gray-200 hover:text-white transition-colors"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg> GitHub</a>` : '';
 
+  const thumbnailUrl = resolveAssetUrl(project, project.thumbnail || '');
   return `
     <article class="bg-white rounded-lg shadow-md overflow-hidden project-card animate-on-scroll group relative">
       <div class="relative overflow-hidden">
         <a href="project.html?id=${project.id}" class="block">
-          <img src="${project.thumbnail || ''}" alt="${project.title}" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110">
+          <img src="${thumbnailUrl}" alt="${project.title}" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null; this.src='assets/images/placeholder.png'; this.alt='${project.title} - Image not available';" loading="lazy">
         </a>
         <!-- Hover Popup Overlay -->
         <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -417,10 +494,10 @@ function renderProject(project) {
   if (project.approach) sections.push({ id: 'approach', title: 'Approach / Methodology', content: project.approach });
   if (project.insights) sections.push({ id: 'insights', title: 'Insights & Outcomes', content: project.insights });
   if (project.streamlit_url) sections.push({ id: 'streamlit', title: 'Streamlit App', content: streamlitEmbed(project.streamlit_url), isMedia: true });
-  if (project.powerbi_embed_url || project.pbix_download_path) sections.push({ id: 'powerbi', title: 'Power BI Dashboard', content: powerBiBlock(project.powerbi_embed_url, project.pbix_download_path), isMedia: true });
+  if (project.powerbi_embed_url || project.pbix_download_path) sections.push({ id: 'powerbi', title: 'Power BI Dashboard', content: powerBiBlock(project.powerbi_embed_url, project.pbix_download_path, project), isMedia: true });
   if (project.video_url) sections.push({ id: 'video', title: 'Video Walkthrough', content: videoEmbed(project.video_url), isMedia: true });
-  if (project.images && project.images.length > 0) sections.push({ id: 'gallery', title: 'Gallery', content: galleryBlock(project.images), isMedia: true });
-  if (project.slide_pdf_path) sections.push({ id: 'slides', title: 'Slides / PDF', content: pdfEmbed(project.slide_pdf_path), isMedia: true });
+  if (project.images && project.images.length > 0) sections.push({ id: 'gallery', title: 'Gallery', content: galleryBlock(project.images, project), isMedia: true });
+  if (project.slide_pdf_path) sections.push({ id: 'slides', title: 'Slides / PDF', content: pdfEmbed(project.slide_pdf_path, project), isMedia: true });
 
   const main = document.getElementById("project-main");
   if (main) {
@@ -472,15 +549,60 @@ function mediaBlock(title, content) {
   `;
 }
 
+/* ---------- ASSET URL RESOLVER ---------- */
+/**
+ * Resolves asset URLs from project repositories or local paths
+ * Supports:
+ * - Full URLs (http/https) - used as-is
+ * - GitHub repo assets - constructs raw.githubusercontent.com URL
+ * - Local paths - used as-is
+ */
+function resolveAssetUrl(project, assetPath) {
+  if (!assetPath) return '';
+  
+  // If already a full URL, use as-is
+  if (assetPath.startsWith('http://') || assetPath.startsWith('https://')) {
+    return assetPath;
+  }
+  
+  // If project has assets_repo, construct GitHub raw URL
+  if (project.assets_repo) {
+    const repo = project.assets_repo;
+    const branch = project.assets_branch || 'main';
+    
+    // Remove leading slash if present
+    const cleanPath = assetPath.startsWith('/') ? assetPath.slice(1) : assetPath;
+    
+    // Construct GitHub raw content URL
+    return `https://raw.githubusercontent.com/${repo}/${branch}/${cleanPath}`;
+  }
+  
+  // For local paths, ensure they work relative to root
+  // Handle paths that might reference _backup_old_portfolio
+  if (assetPath.startsWith('_backup_old_portfolio/')) {
+    // Try the backup path first, fallback to assets if it doesn't exist
+    return assetPath;
+  }
+  
+  // Ensure local paths are relative to root (add ./ if needed for same directory)
+  // Don't modify paths that already start with ./, /, or are in assets/
+  if (!assetPath.startsWith('./') && !assetPath.startsWith('/') && !assetPath.startsWith('assets/')) {
+    return assetPath; // Use as-is
+  }
+  
+  return assetPath;
+}
+
 function streamlitEmbed(url) {
   return `<iframe src="${url}?embed=true" width="100%" height="600" frameborder="0"></iframe>`;
 }
 
-function powerBiBlock(embedUrl, downloadPath) {
+function powerBiBlock(embedUrl, downloadPath, project = null) {
   if (embedUrl) {
     return `<iframe src="${embedUrl}" width="100%" height="600" frameborder="0"></iframe>`;
   } else if (downloadPath) {
-    return `<a href="${downloadPath}" download class="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors font-semibold">Download PBIX File</a>`;
+    const resolvedUrl = project ? resolveAssetUrl(project, downloadPath) : downloadPath;
+    return `<a href="${resolvedUrl}" download class="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors font-semibold">Download PBIX File</a>`;
   }
   return "";
 }
@@ -495,15 +617,19 @@ function videoEmbed(url) {
   return `<video controls width="100%"><source src="${url}" type="video/mp4"></video>`;
 }
 
-function pdfEmbed(path) {
-  return `<iframe src="${path}" width="100%" height="600" frameborder="0"></iframe>`;
+function pdfEmbed(path, project = null) {
+  const resolvedPath = project ? resolveAssetUrl(project, path) : path;
+  return `<iframe src="${resolvedPath}" width="100%" height="600" frameborder="0"></iframe>`;
 }
 
-function galleryBlock(images) {
+function galleryBlock(images, project = null) {
   if (!images || images.length === 0) return "";
+  const resolvedImages = project 
+    ? images.map(img => resolveAssetUrl(project, img))
+    : images;
   return `
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      ${images.map(img => `<img src="${img}" alt="Project image" class="w-full rounded-lg shadow-md gallery-item">`).join('')}
+      ${resolvedImages.map(img => `<img src="${img}" alt="Project image" class="w-full rounded-lg shadow-md gallery-item" onerror="this.onerror=null; this.src='assets/images/placeholder.png'; this.alt='Image not available';">`).join('')}
     </div>
   `;
 }
