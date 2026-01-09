@@ -16,6 +16,15 @@
 
 function init() {
   initTheme();             // Light/Dark theme (must be first for color theme)
+  
+  // Check URL for view mode parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlViewMode = urlParams.get('view');
+  if (urlViewMode && (urlViewMode === 'card' || urlViewMode === 'list')) {
+    currentViewMode = urlViewMode;
+    localStorage.setItem('viewMode', urlViewMode);
+  }
+  
   routePage();
   initScrollAnimations();
   initScrollProgress();
@@ -213,9 +222,27 @@ function applyColorTheme(name) {
       --tw-gradient-to: ${colors.accent} !important;
       --tw-gradient-stops: var(--tw-gradient-from), ${colors.accent}, var(--tw-gradient-to) !important;
     }
-    html[data-color-theme="${theme}"] .btn-primary {
+    /* Button styles with proper contrast */
+    html[data-color-theme="${theme}"] .btn-primary,
+    html[data-color-theme="${theme}"] button.bg-primary,
+    html[data-color-theme="${theme}"] a.bg-primary,
+    html[data-color-theme="${theme}"] .bg-primary.text-white,
+    html[data-color-theme="${theme}"] button[class*="bg-primary"] {
       background: linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%) !important;
+      color: #ffffff !important;
+      border-color: ${colors.primary} !important;
     }
+    
+    html[data-color-theme="${theme}"] .btn-primary:hover,
+    html[data-color-theme="${theme}"] button.bg-primary:hover,
+    html[data-color-theme="${theme}"] a.bg-primary:hover,
+    html[data-color-theme="${theme}"] .bg-primary.text-white:hover,
+    html[data-color-theme="${theme}"] button[class*="bg-primary"]:hover {
+      background: linear-gradient(135deg, ${colors.accent} 0%, ${colors.primary} 100%) !important;
+      color: #ffffff !important;
+      opacity: 0.95;
+    }
+    
     html[data-color-theme="${theme}"] .scroll-progress {
       background: linear-gradient(to right, ${colors.primary}, ${colors.accent}) !important;
     }
@@ -238,13 +265,83 @@ function updateColorSwatch(el, theme) {
   el.style.background = color;
 }
 
+/* ---------- VIEW MODE TOGGLE (CARD/LIST) ---------- */
+let currentViewMode = localStorage.getItem('viewMode') || 'card';
+
+function initViewModeToggle() {
+  const cardBtn = document.getElementById('view-card');
+  const listBtn = document.getElementById('view-list');
+  const projectsGrid = document.getElementById('projects-grid');
+  
+  if (!cardBtn || !listBtn || !projectsGrid) return;
+  
+  // Apply saved view mode
+  applyViewMode(currentViewMode);
+  
+  cardBtn.addEventListener('click', () => {
+    currentViewMode = 'card';
+    localStorage.setItem('viewMode', 'card');
+    applyViewMode('card');
+    updateViewButtons('card');
+  });
+  
+  listBtn.addEventListener('click', () => {
+    currentViewMode = 'list';
+    localStorage.setItem('viewMode', 'list');
+    applyViewMode('list');
+    updateViewButtons('list');
+  });
+}
+
+function applyViewMode(mode) {
+  const container = document.getElementById('projects-grid');
+  if (!container) return;
+  
+  if (mode === 'list') {
+    container.classList.remove('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3');
+    container.classList.add('flex', 'flex-col', 'gap-4');
+    container.dataset.view = 'list';
+  } else {
+    container.classList.remove('flex', 'flex-col');
+    container.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3', 'gap-8');
+    container.dataset.view = 'card';
+  }
+  
+  // Re-render projects with new view mode
+  const urlParams = new URLSearchParams(window.location.search);
+  const page = parseInt(urlParams.get('page')) || 1;
+  loadDashboardProjects("projects-grid", page, 9);
+}
+
+function updateViewButtons(activeMode) {
+  const cardBtn = document.getElementById('view-card');
+  const listBtn = document.getElementById('view-list');
+  
+  if (activeMode === 'card') {
+    cardBtn?.classList.add('active', 'bg-primary', 'text-white');
+    cardBtn?.classList.remove('text-gray-600', 'hover:bg-gray-200');
+    listBtn?.classList.remove('active', 'bg-primary', 'text-white');
+    listBtn?.classList.add('text-gray-600', 'hover:bg-gray-200');
+  } else {
+    listBtn?.classList.add('active', 'bg-primary', 'text-white');
+    listBtn?.classList.remove('text-gray-600', 'hover:bg-gray-200');
+    cardBtn?.classList.remove('active', 'bg-primary', 'text-white');
+    cardBtn?.classList.add('text-gray-600', 'hover:bg-gray-200');
+  }
+}
+
 /* ---------- ROUTING PER PAGE ---------- */
 function routePage() {
   // Load projects for dashboard
   if (document.getElementById("projects-grid")) {
-    // 3 per page so pagination is visible once you add more projects
-    loadDashboardProjects("projects-grid", 1, 3);
+    // 9 per page for first page (3 columns x 3 rows), varied for next pages
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = parseInt(urlParams.get('page')) || 1;
+    const perPage = page === 1 ? 9 : 12; // First page: 9, others: 12
+    
+    loadDashboardProjects("projects-grid", page, perPage);
     loadPinnedProjects(); // Load pinned/featured projects
+    initViewModeToggle(); // Initialize view mode toggle
   }
 
   // Load project detail page
@@ -404,6 +501,9 @@ async function loadDashboardProjects(containerId, page = 1, perPage = 6) {
 
   const start = (page - 1) * perPage;
   const slice = list.slice(start, start + perPage);
+  
+  // Get current view mode
+  const viewMode = el.dataset.view || currentViewMode || 'card';
 
   // Show active filter info if present
   const filterInfo = document.getElementById('active-filter');
@@ -426,7 +526,23 @@ async function loadDashboardProjects(containerId, page = 1, perPage = 6) {
     return;
   }
 
-  el.innerHTML = slice.map(createDashboardProjectCard).join('');
+  // Render based on view mode
+  if (viewMode === 'list') {
+    el.innerHTML = slice.map(createDashboardProjectList).join('');
+  } else {
+    // For page 1: 3 columns, for other pages: varied layouts (2-3 columns)
+    if (page === 1) {
+      el.innerHTML = slice.map(createDashboardProjectCard).join('');
+    } else {
+      // Varied layouts for subsequent pages - mix of 2-column and 3-column
+      el.innerHTML = slice.map((project, index) => {
+        // Every 3rd item spans 2 columns for visual variety
+        const layoutClass = index % 3 === 0 ? 'md:col-span-2' : '';
+        return createDashboardProjectCard(project, layoutClass);
+      }).join('');
+    }
+  }
+  
   renderPagination(list.length, page, perPage);
 }
 
@@ -482,23 +598,37 @@ function renderPagination(total, currentPage, perPage) {
     container.innerHTML = '';
     return;
   }
+  
+  // Preserve view mode and filter in pagination URLs
+  const viewMode = currentViewMode || 'card';
+  const urlParams = new URLSearchParams(window.location.search);
+  const activeFilter = urlParams.get('filter');
+  
+  // Build URL helper
+  const buildUrl = (pageNum) => {
+    const params = new URLSearchParams();
+    if (pageNum > 1) params.set('page', pageNum);
+    if (activeFilter) params.set('filter', activeFilter);
+    if (viewMode === 'list') params.set('view', 'list');
+    return params.toString() ? `homepage.html?${params.toString()}` : 'homepage.html';
+  };
 
   let html = '';
   
   if (currentPage > 1) {
-    html += `<a href="?page=${currentPage - 1}" class="px-4 py-2 bg-white rounded hover:bg-gray-100 transition-colors">Prev</a>`;
+    html += `<a href="${buildUrl(currentPage - 1)}" class="px-4 py-2 bg-white rounded hover:bg-gray-100 transition-colors">Prev</a>`;
   }
 
   for (let i = 1; i <= totalPages; i++) {
     if (i === currentPage) {
       html += `<span class="px-4 py-2 bg-primary text-white rounded">${i}</span>`;
     } else {
-      html += `<a href="?page=${i}" class="px-4 py-2 bg-white rounded hover:bg-gray-100 transition-colors">${i}</a>`;
+      html += `<a href="${buildUrl(i)}" class="px-4 py-2 bg-white rounded hover:bg-gray-100 transition-colors">${i}</a>`;
     }
   }
 
   if (currentPage < totalPages) {
-    html += `<a href="?page=${currentPage + 1}" class="px-4 py-2 bg-white rounded hover:bg-gray-100 transition-colors">Next</a>`;
+    html += `<a href="${buildUrl(currentPage + 1)}" class="px-4 py-2 bg-white rounded hover:bg-gray-100 transition-colors">Next</a>`;
   }
 
   container.innerHTML = html;
@@ -640,13 +770,13 @@ function resolveAssetUrl(project, assetPath) {
   }
   
   // For local paths, ensure they work relative to root
-  // Handle paths that might reference _backup_old_portfolio
+  // Convert old backup paths to assets paths (backward compatibility)
   if (assetPath.startsWith('_backup_old_portfolio/')) {
-    // Try the backup path first, fallback to assets if it doesn't exist
-    return assetPath;
+    // Replace backup path with assets path
+    return assetPath.replace('_backup_old_portfolio/', 'assets/');
   }
   
-  // Ensure local paths are relative to root (add ./ if needed for same directory)
+  // Ensure local paths are relative to root
   // Don't modify paths that already start with ./, /, or are in assets/
   if (!assetPath.startsWith('./') && !assetPath.startsWith('/') && !assetPath.startsWith('assets/')) {
     return assetPath; // Use as-is

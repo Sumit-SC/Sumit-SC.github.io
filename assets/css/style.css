@@ -1140,7 +1140,7 @@ main {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: #1c1d26 url('_backup_old_portfolio/assets/images/banner.jpg') no-repeat center center;
+  background: #1c1d26 url('assets/images/banner.jpg') no-repeat center center;
   background-size: cover;
   color: #ffffff;
   z-index: 1;

@@ -374,15 +374,92 @@ body:not(.dark-theme) .text-gray-500 {
   transform: scale(1.05);
 }
 
-/* Button styles */
-.btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  transition: all 0.3s ease;
+/* View Mode Toggle Styles */
+.view-toggle-btn {
+  color: #6b7280;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
+.view-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.view-toggle-btn.active {
+  background: var(--color-primary, #667eea);
+  color: #ffffff;
+}
+
+.view-toggle-btn.active:hover {
+  background: var(--color-accent, #764ba2);
+}
+
+/* List View Styles */
+.projects-container[data-view="list"] {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.projects-container[data-view="list"] article {
+  width: 100%;
+}
+
+/* Varied Layout for Page 2+ */
+.projects-container .md\:col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+@media (max-width: 768px) {
+  .projects-container .md\:col-span-2 {
+    grid-column: span 1 / span 1;
+  }
+}
+
+/* Button styles - Ensure visibility with white text */
+.btn-primary,
+button.bg-primary,
+a.bg-primary,
+.bg-primary.text-white,
+button[class*="bg-primary"],
+a[class*="bg-primary"] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #ffffff !important;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover,
+button.bg-primary:hover,
+a.bg-primary:hover,
+.bg-primary.text-white:hover,
+button[class*="bg-primary"]:hover,
+a[class*="bg-primary"]:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+  opacity: 0.95;
+  color: #ffffff !important;
+}
+
+/* Force white text on all primary buttons */
+.bg-primary,
+button.bg-primary,
+a.bg-primary {
+  color: #ffffff !important;
+}
+
+.bg-primary:hover,
+button.bg-primary:hover,
+a.bg-primary:hover {
+  color: #ffffff !important;
 }
 
 /* Form styles */
@@ -467,33 +544,129 @@ body:not(.dark-theme) .text-gray-500 {
   --color-accent-light: #6366f1;
 }
 
-/* Apply to buttons and progress bars */
+/* Apply to buttons and progress bars with proper text contrast */
 [data-color-theme="theme-purple"] .btn-primary,
+[data-color-theme="theme-purple"] button.bg-primary,
+[data-color-theme="theme-purple"] a.bg-primary,
+[data-color-theme="theme-purple"] .bg-primary.text-white {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #ffffff !important;
+  border-color: #667eea !important;
+}
+
+[data-color-theme="theme-purple"] .btn-primary:hover,
+[data-color-theme="theme-purple"] button.bg-primary:hover,
+[data-color-theme="theme-purple"] a.bg-primary:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%) !important;
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
 [data-color-theme="theme-purple"] .scroll-progress {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 [data-color-theme="theme-blue"] .btn-primary,
+[data-color-theme="theme-blue"] button.bg-primary,
+[data-color-theme="theme-blue"] a.bg-primary,
+[data-color-theme="theme-blue"] .bg-primary.text-white {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border-color: #3b82f6 !important;
+}
+
+[data-color-theme="theme-blue"] .btn-primary:hover,
+[data-color-theme="theme-blue"] button.bg-primary:hover,
+[data-color-theme="theme-blue"] a.bg-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
 [data-color-theme="theme-blue"] .scroll-progress {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
 [data-color-theme="theme-emerald"] .btn-primary,
+[data-color-theme="theme-emerald"] button.bg-primary,
+[data-color-theme="theme-emerald"] a.bg-primary,
+[data-color-theme="theme-emerald"] .bg-primary.text-white {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+[data-color-theme="theme-emerald"] .btn-primary:hover,
+[data-color-theme="theme-emerald"] button.bg-primary:hover,
+[data-color-theme="theme-emerald"] a.bg-primary:hover {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
 [data-color-theme="theme-emerald"] .scroll-progress {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
 [data-color-theme="theme-rose"] .btn-primary,
+[data-color-theme="theme-rose"] button.bg-primary,
+[data-color-theme="theme-rose"] a.bg-primary,
+[data-color-theme="theme-rose"] .bg-primary.text-white {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+  color: #ffffff !important;
+  border-color: #f43f5e !important;
+}
+
+[data-color-theme="theme-rose"] .btn-primary:hover,
+[data-color-theme="theme-rose"] button.bg-primary:hover,
+[data-color-theme="theme-rose"] a.bg-primary:hover {
+  background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%) !important;
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
 [data-color-theme="theme-rose"] .scroll-progress {
   background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
 }
 
 [data-color-theme="theme-orange"] .btn-primary,
+[data-color-theme="theme-orange"] button.bg-primary,
+[data-color-theme="theme-orange"] a.bg-primary,
+[data-color-theme="theme-orange"] .bg-primary.text-white {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+  color: #ffffff !important;
+  border-color: #f97316 !important;
+}
+
+[data-color-theme="theme-orange"] .btn-primary:hover,
+[data-color-theme="theme-orange"] button.bg-primary:hover,
+[data-color-theme="theme-orange"] a.bg-primary:hover {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%) !important;
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
 [data-color-theme="theme-orange"] .scroll-progress {
   background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
 }
 
 [data-color-theme="theme-indigo"] .btn-primary,
+[data-color-theme="theme-indigo"] button.bg-primary,
+[data-color-theme="theme-indigo"] a.bg-primary,
+[data-color-theme="theme-indigo"] .bg-primary.text-white {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+  color: #ffffff !important;
+  border-color: #6366f1 !important;
+}
+
+[data-color-theme="theme-indigo"] .btn-primary:hover,
+[data-color-theme="theme-indigo"] button.bg-primary:hover,
+[data-color-theme="theme-indigo"] a.bg-primary:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
 [data-color-theme="theme-indigo"] .scroll-progress {
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
 }

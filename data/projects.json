@@ -10,9 +10,9 @@
     "tools": ["Python", "pandas", "scikit-learn", "XGBoost", "Streamlit"],
     "category": "Machine Learning",
     "date": "2024",
-    "thumbnail": "_backup_old_portfolio/projects/assets/images/used_car_price.png",
+    "thumbnail": "assets/images/placeholder.png",
     "images": [
-      "_backup_old_portfolio/projects/assets/images/used_car_price.png"
+      "assets/images/placeholder.png"
     ],
     "video_url": "https://youtu.be/dQw4w9WgXcQ",
     "streamlit_url": "https://sumit-ml-capstone-project.streamlit.app/",
@@ -36,9 +36,9 @@
     "tools": ["SQL", "Python", "pandas", "XGBoost", "Power BI"],
     "category": "Decision Science",
     "date": "2024",
-    "thumbnail": "_backup_old_portfolio/projects/assets/images/Project 6 - Bank Loan Case Study.png",
+    "thumbnail": "assets/images/placeholder.png",
     "images": [
-      "_backup_old_portfolio/assets/images/fulls/04.jpg"
+      "assets/images/fulls/04.jpg"
     ],
     "video_url": "",
     "streamlit_url": "",
@@ -62,9 +62,9 @@
     "tools": ["Power BI", "DAX", "SQL", "Excel"],
     "category": "Analytics Engineering",
     "date": "2024",
-    "thumbnail": "_backup_old_portfolio/projects/assets/images/Project 5 - IMDB Movie Analysis.png",
+    "thumbnail": "assets/images/placeholder.png",
     "images": [
-      "_backup_old_portfolio/assets/images/fulls/05.jpg"
+      "assets/images/fulls/05.jpg"
     ],
     "video_url": "",
     "streamlit_url": "",
@@ -88,9 +88,9 @@
     "tools": ["SQL", "Python", "statsmodels", "A/B Testing"],
     "category": "Product Analytics",
     "date": "2025",
-    "thumbnail": "_backup_old_portfolio/projects/assets/images/oil_spill.jpg",
+    "thumbnail": "assets/images/placeholder.png",
     "images": [
-      "_backup_old_portfolio/assets/images/fulls/02.jpg"
+      "assets/images/fulls/02.jpg"
     ],
     "video_url": "",
     "streamlit_url": "",
@@ -114,9 +114,9 @@
     "tools": ["Python", "scikit-learn", "OpenCV", "pandas", "numpy"],
     "category": "Machine Learning",
     "date": "2024",
-    "thumbnail": "_backup_old_portfolio/projects/assets/images/oil_spill.jpg",
+    "thumbnail": "assets/images/placeholder.png",
     "images": [
-      "_backup_old_portfolio/assets/images/fulls/02.jpg"
+      "assets/images/fulls/02.jpg"
     ],
     "video_url": "",
     "streamlit_url": "",
@@ -140,9 +140,9 @@
     "tools": ["Python", "Power BI", "Excel", "pandas", "matplotlib"],
     "category": "Data Analysis",
     "date": "2024",
-    "thumbnail": "_backup_old_portfolio/projects/assets/images/2023-Car-Features-List.jpg",
+    "thumbnail": "assets/images/placeholder.png",
     "images": [
-      "_backup_old_portfolio/assets/images/fulls/06.jpg"
+      "assets/images/fulls/06.jpg"
     ],
     "video_url": "",
     "streamlit_url": "",
