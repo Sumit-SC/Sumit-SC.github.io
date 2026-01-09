@@ -45,6 +45,9 @@ function initTheme() {
     window.currentTheme = next;
     localStorage.setItem('theme', next);
     applyTheme(next);
+    // Re-apply color theme to update text colors for new mode
+    const currentColorTheme = localStorage.getItem('colorTheme') || 'theme-purple';
+    applyColorTheme(currentColorTheme);
   };
 
   // Theme + color controls (top-right overlay)
@@ -65,7 +68,7 @@ function initTheme() {
   const colorBtn = document.createElement('button');
   colorBtn.type = 'button';
   colorBtn.className = 'w-5 h-5 rounded-full border border-gray-300 overflow-hidden';
-  const themes = ['theme-purple', 'theme-blue', 'theme-emerald'];
+  const themes = ['theme-purple', 'theme-blue', 'theme-emerald', 'theme-rose', 'theme-orange', 'theme-indigo'];
   const storedTheme = localStorage.getItem('colorTheme') || document.documentElement.dataset.colorTheme || 'theme-purple';
   let colorIndex = themes.indexOf(storedTheme);
   if (colorIndex < 0) colorIndex = 0;
@@ -101,11 +104,14 @@ function applyColorTheme(name) {
   const theme = name || stored || 'theme-purple';
   root.dataset.colorTheme = theme;
   
-  // Color mappings
+  // Color mappings - Modern color palettes
   const colorMap = {
-    'theme-purple': { primary: '#667eea', accent: '#764ba2' },
-    'theme-blue': { primary: '#3b82f6', accent: '#2563eb' },
-    'theme-emerald': { primary: '#10b981', accent: '#059669' }
+    'theme-purple': { primary: '#667eea', accent: '#764ba2' },      // Purple/Violet
+    'theme-blue': { primary: '#3b82f6', accent: '#2563eb' },        // Blue
+    'theme-emerald': { primary: '#10b981', accent: '#059669' },    // Green/Emerald
+    'theme-rose': { primary: '#f43f5e', accent: '#e11d48' },        // Rose/Pink
+    'theme-orange': { primary: '#f97316', accent: '#ea580c' },     // Orange/Amber
+    'theme-indigo': { primary: '#6366f1', accent: '#4f46e5' }        // Indigo
   };
   
   const colors = colorMap[theme] || colorMap['theme-purple'];
@@ -118,9 +124,33 @@ function applyColorTheme(name) {
     document.head.appendChild(styleEl);
   }
   
+  // Determine if dark mode is active
+  const isDark = document.documentElement.classList.contains('dark-theme');
+  
+  // Theme-aware text colors (lighter in dark mode, darker in light mode)
+  const textColors = {
+    light: {
+      heading: '#1f2937',      // Dark gray for headings
+      body: '#374151',         // Medium gray for body
+      muted: '#6b7280',        // Light gray for muted text
+      link: colors.primary,     // Primary color for links
+      linkHover: colors.accent // Accent color for link hover
+    },
+    dark: {
+      heading: '#f9fafb',       // Almost white for headings
+      body: '#e5e7eb',         // Light gray for body
+      muted: '#9ca3af',        // Medium gray for muted text
+      link: colors.primary,     // Primary color for links (lighter)
+      linkHover: colors.accent // Accent color for link hover
+    }
+  };
+  
+  const text = isDark ? textColors.dark : textColors.light;
+  
   // Create CSS that overrides all primary color usages with higher specificity
   // Apply to html element to ensure it cascades properly
   styleEl.textContent = `
+    /* Primary color overrides */
     html[data-color-theme="${theme}"] .text-primary,
     html[data-color-theme="${theme}"] a.text-primary,
     html[data-color-theme="${theme}"] .hover\\:text-primary:hover,
@@ -128,6 +158,38 @@ function applyColorTheme(name) {
     html[data-color-theme="${theme}"] a.hover\\:text-primary:hover,
     html[data-color-theme="${theme}"] *[class*="text-primary"] {
       color: ${colors.primary} !important;
+    }
+    
+    /* Theme-aware text colors */
+    html[data-color-theme="${theme}"] h1,
+    html[data-color-theme="${theme}"] h2,
+    html[data-color-theme="${theme}"] h3,
+    html[data-color-theme="${theme}"] h4,
+    html[data-color-theme="${theme}"] h5,
+    html[data-color-theme="${theme}"] h6,
+    html[data-color-theme="${theme}"] .text-gray-800,
+    html[data-color-theme="${theme}"] .text-gray-900 {
+      color: ${text.heading} !important;
+    }
+    
+    html[data-color-theme="${theme}"] p,
+    html[data-color-theme="${theme}"] .text-gray-600,
+    html[data-color-theme="${theme}"] .text-gray-700,
+    html[data-color-theme="${theme}"] body {
+      color: ${text.body} !important;
+    }
+    
+    html[data-color-theme="${theme}"] .text-gray-400,
+    html[data-color-theme="${theme}"] .text-gray-500 {
+      color: ${text.muted} !important;
+    }
+    
+    html[data-color-theme="${theme}"] a:not(.text-primary):not(.hover\\:text-primary) {
+      color: ${text.link} !important;
+    }
+    
+    html[data-color-theme="${theme}"] a:not(.text-primary):not(.hover\\:text-primary):hover {
+      color: ${text.linkHover} !important;
     }
     html[data-color-theme="${theme}"] .border-primary,
     html[data-color-theme="${theme}"] .focus\\:border-primary:focus,
