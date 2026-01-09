@@ -76,8 +76,11 @@
 				</aside>
 			</div>
 			
-			<!-- Disqus Comments Section -->
-			<div id="disqus_thread" class="mt-12 bg-white rounded-lg shadow-lg p-8"></div>
+			<!-- Giscus Comments Section -->
+			<div id="giscus-container" class="mt-12 bg-white rounded-lg shadow-lg p-8">
+				<h2 class="text-2xl font-bold text-gray-800 mb-6">Comments & Discussion</h2>
+				<div id="giscus-root"></div>
+			</div>
 		</div>
 	</main>
 
@@ -106,28 +109,97 @@
 	</footer>
 
 	<script src="assets/js/main.js"></script>
-	<!-- Disqus Comments -->
+	<!-- Giscus Comments -->
 	<script>
-		// Disqus configuration
-		var disqus_config = function () {
-			this.page.url = window.location.href;
-			this.page.identifier = window.location.search.split('id=')[1] || 'project';
-		};
-		(function() {
-			var d = document, s = d.createElement('script');
-			s.src = 'https://sumit-sc-portfolio.disqus.com/embed.js';
-			s.setAttribute('data-timestamp', +new Date());
-			(d.head || d.body).appendChild(s);
-		})();
+		// Initialize Giscus with dynamic project ID and theme
+		function initGiscus() {
+			const urlParams = new URLSearchParams(window.location.search);
+			const projectId = urlParams.get('id') || 'general';
+			
+			// Get current theme
+			const isDark = document.documentElement.classList.contains('dark-theme');
+			const theme = isDark ? 'dark' : 'light';
+			
+			// Create Giscus script dynamically
+			const giscusScript = document.createElement('script');
+			giscusScript.src = 'https://giscus.app/client.js';
+			giscusScript.setAttribute('data-repo', 'Sumit-SC/Sumit-SC.github.io');
+			giscusScript.setAttribute('data-repo-id', 'REPO_ID_PLACEHOLDER'); // Replace with your repo-id
+			giscusScript.setAttribute('data-category', 'General');
+			giscusScript.setAttribute('data-category-id', 'CATEGORY_ID_PLACEHOLDER'); // Replace with your category-id
+			giscusScript.setAttribute('data-mapping', 'specific');
+			giscusScript.setAttribute('data-term', `project-${projectId}`);
+			giscusScript.setAttribute('data-strict', '0');
+			giscusScript.setAttribute('data-reactions-enabled', '1');
+			giscusScript.setAttribute('data-emit-metadata', '0');
+			giscusScript.setAttribute('data-input-position', 'bottom');
+			giscusScript.setAttribute('data-theme', theme);
+			giscusScript.setAttribute('data-lang', 'en');
+			giscusScript.setAttribute('data-loading', 'lazy');
+			giscusScript.crossOrigin = 'anonymous';
+			giscusScript.async = true;
+			
+			// Append to giscus-root container
+			const container = document.getElementById('giscus-root');
+			if (container) {
+				container.appendChild(giscusScript);
+			}
+			
+			// Store reference for theme updates
+			window.giscusConfig = {
+				repo: 'Sumit-SC/Sumit-SC.github.io',
+				repoId: 'REPO_ID_PLACEHOLDER',
+				category: 'General',
+				categoryId: 'CATEGORY_ID_PLACEHOLDER',
+				projectId: projectId
+			};
+		}
+		
+		// Update Giscus theme when site theme changes
+		function updateGiscusTheme() {
+			const isDark = document.documentElement.classList.contains('dark-theme');
+			const theme = isDark ? 'dark' : 'light';
+			
+			// Find Giscus iframe and send theme update message
+			const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
+			if (giscusFrame && giscusFrame.contentWindow) {
+				const message = {
+					type: 'set-theme',
+					theme: theme
+				};
+				giscusFrame.contentWindow.postMessage(message, 'https://giscus.app');
+			}
+		}
+		
+		// Initialize on page load
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initGiscus);
+		} else {
+			initGiscus();
+		}
+		
+		// Watch for theme changes
+		const observer = new MutationObserver(() => {
+			updateGiscusTheme();
+		});
+		observer.observe(document.documentElement, { 
+			attributes: true, 
+			attributeFilter: ['class'] 
+		});
+		
+		// Also listen for theme toggle events
+		window.addEventListener('theme-changed', updateGiscusTheme);
 		
 		// Scroll progress bar
 		window.addEventListener('scroll', () => {
 			const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
 			const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 			const scrolled = (winScroll / height) * 100;
-			document.getElementById('scroll-progress').style.width = scrolled + '%';
+			const progressBar = document.getElementById('scroll-progress');
+			if (progressBar) {
+				progressBar.style.width = scrolled + '%';
+			}
 		});
 	</script>
-	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </body>
 </html>
