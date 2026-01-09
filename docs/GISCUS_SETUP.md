@@ -37,21 +37,29 @@ Giscus is a free, open-source comments system powered by GitHub Discussions. It'
 ### Step 3: Get Your Configuration Values
 
 1. Go to **https://giscus.app**
-2. Fill in the form:
-   - **Repository**: `Sumit-SC/Sumit-SC.github.io`
-   - **Discussion Category**: Select the category you created (usually "General")
-   - **Page ↔ Discussion Mapping**: Select **"Specific discussions"**
-   - **Discussion Term**: Leave as `project-` (we'll append project IDs dynamically)
+2. Fill in the form with these settings:
+   - **Repository**: Enter `Sumit-SC/Sumit-SC.github.io`
+   - **Discussion Category**: Select the category you created in Step 1 (usually "General" or "Announcements")
+   
+   **Important - Look for "Page ↔️ Discussions Mapping" section:**
+   - Select the option: **"Discussion title contains a specific term"** 
+     (This might also be labeled as "Specific" or "Specific term" depending on the interface)
+   - In the **"Specific Term"** field, enter: `project-`
+     (Don't worry, we'll append the project ID dynamically in the code)
+   
+   **Other Settings:**
    - **Features**: 
      - ✅ Enable reactions
-     - ✅ Enable input position toggle
-   - **Theme**: Choose your preferred theme (light/dark)
+     - ✅ Enable input position toggle (optional)
+   - **Theme**: Choose your preferred theme (light/dark - it will auto-switch with your site)
    - **Language**: English
 
-3. Scroll down to see the **script tag** with your configuration
-4. Copy these values:
-   - `data-repo-id` (looks like: `R_kgDO...`)
-   - `data-category-id` (looks like: `DIC_kwDO...`)
+3. Scroll down to see the **generated script tag** with your configuration
+4. Copy these two important values from the script tag:
+   - `data-repo-id` (looks like: `R_kgDO...` or `R_kgD...`)
+   - `data-category-id` (looks like: `DIC_kwDO...` or `DIC_kwD...`)
+
+**Note**: The term field in the form is just a placeholder. Our code will dynamically set it to `project-{projectId}` for each page.
 
 ### Step 4: Update project.html
 
