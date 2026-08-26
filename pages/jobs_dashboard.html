@@ -362,8 +362,6 @@
         <button class="pill-btn" onclick="selectPill(this, 'Python Developer')">Python Developer</button>
         <button class="pill-btn" onclick="selectPill(this, 'Software Engineer')">Software Engineer</button>
         <button class="pill-btn" onclick="selectPill(this, 'Analytics Engineer')">Analytics Engineer</button>
-        <button class="pill-btn" onclick="selectPill(this, 'BI Developer')">BI Developer</button>
-        <button class="pill-btn" onclick="selectPill(this, 'Machine Learning')">Machine Learning</button>
       </div>
 
       <div class="source-filters" id="sourceFilters">
@@ -373,6 +371,12 @@
         <div class="filter-chip" data-source="goodjobs" onclick="toggleSource(this)">GoodJobs</div>
         <div class="filter-chip" data-source="naukri" onclick="toggleSource(this)">Naukri</div>
         <div class="filter-chip" data-source="indeed" onclick="toggleSource(this)">Indeed</div>
+        <div class="filter-chip" data-source="cuvette" onclick="toggleSource(this)">Cuvette (Freshers)</div>
+        <div class="filter-chip" data-source="cutshort" onclick="toggleSource(this)">Cutshort (Startups)</div>
+        <div class="filter-chip" data-source="wellfound" onclick="toggleSource(this)">Wellfound</div>
+        <div class="filter-chip" data-source="jobaaj" onclick="toggleSource(this)">Jobaaj</div>
+        <div class="filter-chip" data-source="workindia" onclick="toggleSource(this)">WorkIndia</div>
+        <div class="filter-chip" data-source="ats" onclick="toggleSource(this)">Enterprise ATS</div>
         <div class="filter-chip" data-source="remoteok" onclick="toggleSource(this)">RemoteOK</div>
         <div class="filter-chip" data-source="weworkremotely" onclick="toggleSource(this)">WeWorkRemotely</div>
         <div class="filter-chip" data-source="himalayas" onclick="toggleSource(this)">Himalayas</div>
@@ -384,7 +388,7 @@
     <div class="table-card">
       <div class="table-header">
         <div class="table-title">Recent Jobs (Latest First)</div>
-        <div style="font-size: 0.85rem; color: #94a3b8;" id="rowCount">Showing 8 verified jobs</div>
+        <div style="font-size: 0.85rem; color: #94a3b8;" id="rowCount">Showing 14 verified jobs</div>
       </div>
 
       <table>
@@ -416,12 +420,44 @@
         url: "https://in.linkedin.com/jobs/view/data-analyst-at-exl-4446742093"
       },
       {
-        title: "Data Analyst Specialist",
-        company: "Ecolab",
-        location: "Pune / Pimpri",
-        desc: "Demonstrates use of data analysis principles to examine data systems and determine metrics.",
-        source: "linkedin",
-        url: "https://in.linkedin.com/jobs/view/data-analyst-at-ecolab-4429793411"
+        title: "Data Analyst Fresher",
+        company: "Cuvette Tech Network",
+        location: "Pune (Fresher / Intern)",
+        desc: "Entry-level tech role for freshers in data analytics, Python scripting & SQL reporting.",
+        source: "cuvette",
+        url: "https://cuvette.tech/jobs/Data%20Analyst"
+      },
+      {
+        title: "Data Analyst Remote Developer",
+        company: "Cutshort Startup Network",
+        location: "Pune / Remote",
+        desc: "High-growth tech startup looking for Data Analyst proficient in product metrics and Python ETL.",
+        source: "cutshort",
+        url: "https://cutshort.io/jobs/Data%20Analyst"
+      },
+      {
+        title: "Data Analyst & Finance Associate",
+        company: "Jobaaj Analytics",
+        location: "Pune / Remote",
+        desc: "Finance and data analytics role focusing on financial modeling, SQL, and business intelligence.",
+        source: "jobaaj",
+        url: "https://www.jobaaj.com/jobs/Data%20Analyst"
+      },
+      {
+        title: "Lead SEC Analyst",
+        company: "GitLab",
+        location: "Global Remote",
+        desc: "GitLab SEC Analyst role. Responsible for security analytics, compliance monitoring, and incident response.",
+        source: "ats",
+        url: "https://job-boards.greenhouse.io/gitlab/jobs/8633807002"
+      },
+      {
+        title: "Data Analyst Associate",
+        company: "WorkIndia Regional Partner",
+        location: "Pune, MH",
+        desc: "Entry-level associate role for data entry, operations, and analytical record management.",
+        source: "workindia",
+        url: "https://www.workindia.in/jobs/Data%20Analyst"
       },
       {
         title: "Senior GRC Analyst",
@@ -465,7 +501,7 @@
       },
       {
         title: "Data Analyst Engineer",
-        company": "GoodJobs Partner",
+        company: "GoodJobs Partner",
         location: "Pune, India",
         desc: "GoodJobs VN partner listing. Focus on SQL analytics, data pipeline modeling & BI reporting.",
         source: "goodjobs",
