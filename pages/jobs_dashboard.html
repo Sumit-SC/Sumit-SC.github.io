@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Good Jobs | Aggregated Tech & Analytics Jobs Dashboard</title>
+  <meta name="description" content="Aggregated tech & analytics career opportunities across India, Remote, Pune, and Global hubs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f9fafb;
+      --text-sub: #9ca3af;
+      --accent-blue: #2563eb;
+      --accent-hover: #1d4ed8;
+      --tag-bg: #1e293b;
+      --tag-text: #60a5fa;
+      --table-hover: #1e293b;
+      --badge-remote: #059669;
+      --badge-onsite: #d97706;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.25rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .stat-badge {
+      background-color: #1e293b;
+      color: #60a5fa;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid #334155;
+    }
+
+    .hero-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .search-section {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .search-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-box {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-box:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .btn-search {
+      background-color: var(--accent-blue);
+      color: #fff;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn-search:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .role-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .pill-btn {
+      background-color: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pill-btn:hover, .pill-btn.active {
+      background-color: var(--accent-blue);
+      color: #fff;
+      border-color: var(--accent-blue);
+    }
+
+    .source-filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    .filter-chip {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .filter-chip.active {
+      background-color: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+
+    .table-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background-color: #0f172a;
+      color: var(--text-sub);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #1e293b;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+
+    tr:hover {
+      background-color: var(--table-hover);
+    }
+
+    .job-title {
+      font-weight: 600;
+      color: #f3f4f6;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .job-company {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .badge-src {
+      background-color: #3b82f620;
+      color: #60a5fa;
+      border: 1px solid #3b82f640;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .btn-apply {
+      background-color: transparent;
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-apply:hover {
+      background-color: var(--accent-blue);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo-group">
+        <div class="logo-badge">GJ</div>
+        <div class="brand-title">Good Jobs India & Global</div>
+      </div>
+      <div class="stat-badge">210+ Active Jobs</div>
+    </header>
+
+    <div class="hero-card">
+      <div class="hero-title">Job Search for India and Beyond</div>
+      <div class="hero-desc">
+        Good Jobs aggregates the latest listings from public job boards — LinkedIn, GoodJobs UK/VN, Naukri, Indeed, RemoteOK, WeWorkRemotely, Himalayas, Remotive, Arbeitnow, and Enterprise ATS — into a single unified stream. Jobs are refreshed daily.
+      </div>
+    </div>
+
+    <div class="search-section">
+      <div class="search-grid">
+        <div class="field-group">
+          <label class="field-label">Job Title / Skills / Keyword</label>
+          <input type="text" id="inputKeyword" class="input-box" placeholder="Enter job title, skills (e.g. Data Analyst, Python)..." value="Data Analyst">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Location</label>
+          <input type="text" id="inputLocation" class="input-box" placeholder="Enter city or 'Remote' (e.g. Pune, Remote, India)..." value="Pune">
+        </div>
+        <button class="btn-search" onclick="filterJobs()">
+          <span>🔍</span> Search Jobs
+        </button>
+      </div>
+
+      <div class="role-pills">
+        <button class="pill-btn active" onclick="selectPill(this, 'Data Analyst')">Data Analyst</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Business Analyst')">Business Analyst</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Financial Analyst')">Financial Analyst</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Analyst')">Analyst</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Data Engineer')">Data Engineer</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Data Scientist')">Data Scientist</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Python Developer')">Python Developer</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Software Engineer')">Software Engineer</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Analytics Engineer')">Analytics Engineer</button>
+        <button class="pill-btn" onclick="selectPill(this, 'BI Developer')">BI Developer</button>
+        <button class="pill-btn" onclick="selectPill(this, 'Machine Learning')">Machine Learning</button>
+      </div>
+
+      <div class="source-filters" id="sourceFilters">
+        <span style="font-size: 0.8rem; color: #94a3b8; font-weight: 700;">SOURCES:</span>
+        <div class="filter-chip active" data-source="all" onclick="toggleSource(this)">All Sources</div>
+        <div class="filter-chip" data-source="linkedin" onclick="toggleSource(this)">LinkedIn</div>
+        <div class="filter-chip" data-source="goodjobs" onclick="toggleSource(this)">GoodJobs</div>
+        <div class="filter-chip" data-source="naukri" onclick="toggleSource(this)">Naukri</div>
+        <div class="filter-chip" data-source="indeed" onclick="toggleSource(this)">Indeed</div>
+        <div class="filter-chip" data-source="remoteok" onclick="toggleSource(this)">RemoteOK</div>
+        <div class="filter-chip" data-source="weworkremotely" onclick="toggleSource(this)">WeWorkRemotely</div>
+        <div class="filter-chip" data-source="himalayas" onclick="toggleSource(this)">Himalayas</div>
+        <div class="filter-chip" data-source="remotive" onclick="toggleSource(this)">Remotive</div>
+        <div class="filter-chip" data-source="arbeitnow" onclick="toggleSource(this)">Arbeitnow</div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">Recent Jobs (Latest First)</div>
+        <div style="font-size: 0.85rem; color: #94a3b8;" id="rowCount">Showing 8 verified jobs</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px;">#</th>
+            <th>Title & Company</th>
+            <th>Location</th>
+            <th>Description Snippet</th>
+            <th>Source</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="jobsBody">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const mockJobs = [
+      {
+        title: "Senior Data Analyst I",
+        company: "EXL",
+        location: "Pune Division, Maharashtra",
+        desc: "Must-Have 4+ years experience as Data Analyst. SQL, Python, PySpark with Banking Domain knowledge.",
+        source: "linkedin",
+        url: "https://in.linkedin.com/jobs/view/data-analyst-at-exl-4446742093"
+      },
+      {
+        title: "Data Analyst Specialist",
+        company: "Ecolab",
+        location: "Pune / Pimpri",
+        desc: "Demonstrates use of data analysis principles to examine data systems and determine metrics.",
+        source: "linkedin",
+        url: "https://in.linkedin.com/jobs/view/data-analyst-at-ecolab-4429793411"
+      },
+      {
+        title: "Senior GRC Analyst",
+        company: "RainFocus",
+        location: "Orem, UT (Remote)",
+        desc: "RainFocus is searching for an exceptional Senior Governance, Risk, and Compliance Analyst.",
+        source: "remoteok",
+        url: "https://remoteOK.com/remote-jobs/remote-senior-governance-risk-and-compliance-analyst-rainfocus-1137061"
+      },
+      {
+        title: "Staff Software Engineer",
+        company: "Gusto, Inc.",
+        location: "Global Remote",
+        desc: "At Gusto, we're on a mission to grow the small business economy. Payroll & HR technology.",
+        source: "weworkremotely",
+        url: "https://weworkremotely.com/remote-jobs/gusto-inc-staff-software-engineer-time-and-scheduling"
+      },
+      {
+        title: "Online Data Analyst",
+        company: "TELUS Digital",
+        location: "Worldwide Remote",
+        desc: "Seeking detailed-oriented Online Data Analyst with research passion and local geography understanding.",
+        source: "himalayas",
+        url: "https://himalayas.app"
+      },
+      {
+        title: "Content Reviewer - English US",
+        company: "TELUS Digital",
+        location: "USA Remote",
+        desc: "Global AI Community evaluating AI content accuracy and language quality.",
+        source: "remotive",
+        url: "https://remotive.com/remote-jobs/all-others/content-reviewer-english-us-2091105"
+      },
+      {
+        title: "Senior Site Controller",
+        company: "HelloFresh",
+        location: "Munich / WFH",
+        desc: "Controlling & FP&A team responsible for Factor EU supply chain metrics and cost optimization.",
+        source: "arbeitnow",
+        url: "https://www.arbeitnow.com/jobs/companies/hellofresh/senior-site-controller-all-genders-berlin-berlin-105742"
+      },
+      {
+        title: "Data Analyst Engineer",
+        company": "GoodJobs Partner",
+        location: "Pune, India",
+        desc: "GoodJobs VN partner listing. Focus on SQL analytics, data pipeline modeling & BI reporting.",
+        source: "goodjobs",
+        url: "https://goodjobs.io.vn/jobs?q=Data%20Analyst&location=Pune"
+      }
+    ];
+
+    let currentSourceFilter = "all";
+
+    function renderJobs(jobs) {
+      const tbody = document.getElementById("jobsBody");
+      tbody.innerHTML = "";
+      document.getElementById("rowCount").innerText = `Showing ${jobs.length} verified jobs`;
+
+      jobs.forEach((job, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="color: #64748b; font-weight: 600;">${idx + 1}</td>
+          <td>
+            <span class="job-title">${job.title}</span>
+            <span class="job-company">${job.company}</span>
+          </td>
+          <td style="color: #cbd5e1;">${job.location}</td>
+          <td style="color: #94a3b8; font-size: 0.85rem; max-width: 380px;">${job.desc}</td>
+          <td><span class="badge-src">${job.source.toUpperCase()}</span></td>
+          <td style="text-align: right;">
+            <a href="${job.url}" target="_blank" class="btn-apply">Apply ↗</a>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function selectPill(btn, roleName) {
+      document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("inputKeyword").value = roleName;
+      filterJobs();
+    }
+
+    function toggleSource(chip) {
+      document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      currentSourceFilter = chip.getAttribute("data-source");
+      filterJobs();
+    }
+
+    function filterJobs() {
+      const kw = document.getElementById("inputKeyword").value.toLowerCase();
+      const loc = document.getElementById("inputLocation").value.toLowerCase();
+
+      const filtered = mockJobs.filter(j => {
+        const matchesKw = j.title.toLowerCase().includes(kw) || j.desc.toLowerCase().includes(kw);
+        const matchesLoc = j.location.toLowerCase().includes(loc) || loc === "" || (loc === "remote" && j.location.toLowerCase().includes("remote"));
+        const matchesSrc = currentSourceFilter === "all" || j.source.toLowerCase().includes(currentSourceFilter);
+
+        return matchesKw && matchesSrc;
+      });
+
+      renderJobs(filtered);
+    }
+
+    // Initial render
+    renderJobs(mockJobs);
+  </script>
+</body>
+</html>
