@@ -510,6 +510,30 @@
     ];
 
     let currentSourceFilter = "all";
+    let activeJobsList = mockJobs;
+    const API_BASE_URL = window.location.origin.includes("github.io") ? "https://job-search-engine-api.onrender.com" : window.location.origin;
+
+    async function fetchLiveBackendJobs() {
+      try {
+        const resp = await fetch(`${API_BASE_URL}/jobs?limit=50`, { signal: AbortSignal.timeout(4000) });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.jobs && data.jobs.length > 0) {
+            activeJobsList = data.jobs.map(j => ({
+              title: j.title || "Job Listing",
+              company: j.company || "Direct Hiring Client",
+              location: j.location || "Remote / Onsite",
+              desc: j.description || j.snippet || "Verified job offer from multi-source scraper engine.",
+              source: j.source || "backend",
+              url: j.url || j.link || "#"
+            }));
+            filterJobs();
+          }
+        }
+      } catch (e) {
+        console.warn("Backend API fetch notice, displaying fallback seed listings:", e);
+      }
+    }
 
     function renderJobs(jobs) {
       const tbody = document.getElementById("jobsBody");
@@ -553,7 +577,7 @@
       const kw = document.getElementById("inputKeyword").value.toLowerCase();
       const loc = document.getElementById("inputLocation").value.toLowerCase();
 
-      const filtered = mockJobs.filter(j => {
+      const filtered = activeJobsList.filter(j => {
         const matchesKw = j.title.toLowerCase().includes(kw) || j.desc.toLowerCase().includes(kw);
         const matchesLoc = j.location.toLowerCase().includes(loc) || loc === "" || (loc === "remote" && j.location.toLowerCase().includes("remote"));
         const matchesSrc = currentSourceFilter === "all" || j.source.toLowerCase().includes(currentSourceFilter);
@@ -564,8 +588,9 @@
       renderJobs(filtered);
     }
 
-    // Initial render
+    // Initial render & background live fetch
     renderJobs(mockJobs);
+    fetchLiveBackendJobs();
   </script>
 </body>
 </html>
